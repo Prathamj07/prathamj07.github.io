@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pratham Joshi · Terminal Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+      padding: 24px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .term-wrap {
+      background: #0d1117;
+      border-radius: 12px;
+      border: 1px solid #30363d;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    }
+
+    .term-bar {
+      background: #161b22;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      border-bottom: 1px solid #30363d;
+      user-select: none;
+    }
+
+    .dot { width: 13px; height: 13px; border-radius: 50%; }
+    .term-title {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      color: #484f58;
+    }
+
+    .term-body {
+      padding: 20px;
+      min-height: 360px;
+      max-height: 480px;
+      overflow-y: auto;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #e6edf3;
+      scroll-behavior: smooth;
+    }
+
+    .term-body::-webkit-scrollbar { width: 4px; }
+    .term-body::-webkit-scrollbar-track { background: transparent; }
+    .term-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+
+    .line { display: flex; gap: 8px; flex-wrap: wrap; }
+    .prompt { color: #6366f1; flex-shrink: 0; }
+    .cmd-text { color: #79c0ff; }
+
+    .out        { color: #e6edf3; }
+    .out-muted  { color: #484f58; }
+    .out-green  { color: #3fb950; }
+    .out-yellow { color: #e3b341; }
+    .out-purple { color: #bc8cff; }
+    .out-blue   { color: #79c0ff; }
+    .out-orange { color: #ffa657; }
+
+    .spacer { height: 6px; }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-top: 1px solid #161b22;
+      background: #0d1117;
+    }
+
+    .input-row .prompt { font-size: 13.5px; }
+
+    #term-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #79c0ff;
+      font-family: inherit;
+      font-size: 13.5px;
+      caret-color: #6366f1;
+    }
+
+    ::placeholder { color: #30363d; }
+
+    .hint {
+      font-size: 11px;
+      color: #30363d;
+      padding: 6px 20px 14px;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+    }
+
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .term-body { font-size: 12px; max-height: 420px; }
+      #term-input { font-size: 12px; }
+      .input-row .prompt { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="term-wrap">
+      <div class="term-bar">
+        <div class="dot" style="background:#ff5f57"></div>
+        <div class="dot" style="background:#febc2e"></div>
+        <div class="dot" style="background:#28c840"></div>
+        <div class="term-title">pratham@portfolio ~ zsh</div>
+      </div>
+
+      <div class="term-body" id="output">
+        <div class="line">
+          <span class="prompt">pratham@portfolio:~$</span>
+          <span class="cmd-text">cat welcome.txt</span>
+        </div>
+        <div class="spacer"></div>
+        <div class="out-purple">╔══════════════════════════════════════╗</div>
+        <div class="out-purple">║  hey, i'm pratham.                   ║</div>
+        <div class="out-purple">║  i build AI infrastructure.          ║</div>
+        <div class="out-purple">╚══════════════════════════════════════╝</div>
+        <div class="spacer"></div>
+        <div class="out-muted"># type a command. try: <span class="out-green">help</span></div>
+        <div class="spacer"></div>
+      </div>
+
+      <div class="input-row">
+        <span class="prompt">pratham@portfolio:~$</span>
+        <input id="term-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command..." />
+      </div>
+      <div class="hint">help · whoami · work · projects · stack · awards · contact · clear</div>
+    </div>
+  </div>
+
+  <script>
+    const out = document.getElementById('output');
+    const inp = document.getElementById('term-input');
+
+    const COMMANDS = {
+      help: () => [
+        { t: 'green',  v: 'available commands:' },
+        { t: 'out',    v: '  whoami     — who i am' },
+        { t: 'out',    v: '  work       — current & past roles' },
+        { t: 'out',    v: '  projects   — things i\'ve built' },
+        { t: 'out',    v: '  stack      — tools i use' },
+        { t: 'out',    v: '  awards     — recognitions' },
+        { t: 'out',    v: '  contact    — reach me' },
+        { t: 'out',    v: '  clear      — clear terminal' },
+      ],
+      whoami: () => [
+        { t: 'yellow', v: 'pratham joshi' },
+        { t: 'out',    v: 'B.Tech CSE · AI/ML Honors · CGPA 9.5' },
+        { t: 'out',    v: 'IPS Academy, Indore → graduating June 2026' },
+        { t: 'muted',  v: '' },
+        { t: 'out',    v: 'i love solving problems.' },
+        { t: 'out',    v: 'i explore tech i haven\'t touched yet.' },
+        { t: 'out',    v: 'i build things that actually scale.' },
+      ],
+      work: () => [
+        { t: 'purple', v: '▸ WeDecode.io  ·  AI & Backend Engineer  ·  present' },
+        { t: 'out',    v: '  building gym environments for agentic AI training.' },
+        { t: 'out',    v: '  synthetic data gen · RL evaluation pipelines · docker infra' },
+        { t: 'muted',  v: '' },
+        { t: 'blue',   v: '▸ THDC India Limited  ·  Backend & ML Intern  ·  Sept 2025' },
+        { t: 'out',    v: '  OCR pipeline (Tesseract, EasyOCR) → 90% extraction accuracy' },
+        { t: 'out',    v: '  blockchain auth via SHA-256 + distributed ledger' },
+        { t: 'muted',  v: '' },
+        { t: 'orange', v: '▸ Valency Renewable  ·  AI Intern  ·  May – July 2025' },
+        { t: 'out',    v: '  LangChain + FaissDB lead gen · 8K+ records · 35% efficiency gain' },
+        { t: 'out',    v: '  RAG chatbot (BERT, GPT APIs) → 87% intent accuracy' },
+      ],
+      projects: () => [
+        { t: 'green',  v: '🧠 Recall  —  AI Knowledge Management' },
+        { t: 'out',    v: '   React 18 · TypeScript · pgvector · Gemini 2.5 · GPT-5 · Deno' },
+        { t: 'out',    v: '   semantic RAG over 6 content types · handwritten math solver' },
+        { t: 'blue',   v: '   → github.com/Prathamj07/Project-Recall' },
+        { t: 'muted',  v: '' },
+        { t: 'green',  v: '🎙 Anuvaad AI  —  Multilingual Dubbing Studio' },
+        { t: 'out',    v: '   Python · Flask · Whisper ASR · Coqui-TTS · ElevenLabs' },
+        { t: 'out',    v: '   speech → translation → voice cloning · 50+ languages' },
+        { t: 'blue',   v: '   → github.com/Prathamj07/Anuvaad-AI' },
+        { t: 'muted',  v: '' },
+        { t: 'green',  v: '📋 AcadBoost  —  Academic Profile + AI Resume Engine' },
+        { t: 'out',    v: '   Streamlit · Gemini API · LaTeX · LangChain · MongoDB' },
+        { t: 'out',    v: '   94% ATS compliance · AI resume analyzer' },
+        { t: 'blue',   v: '   → github.com/Prathamj07/AcadBoost' },
+      ],
+      stack: () => [
+        { t: 'yellow', v: 'languages:' },
+        { t: 'out',    v: '  Python  C++  SQL' },
+        { t: 'muted',  v: '' },
+        { t: 'yellow', v: 'ml / ai:' },
+        { t: 'out',    v: '  PyTorch  TensorFlow  Scikit-learn  LangChain  RAG  RL  LLMs' },
+        { t: 'muted',  v: '' },
+        { t: 'yellow', v: 'frameworks:' },
+        { t: 'out',    v: '  FastAPI  Flask  Django  Hugging Face  Streamlit' },
+        { t: 'muted',  v: '' },
+        { t: 'yellow', v: 'databases:' },
+        { t: 'out',    v: '  PostgreSQL  MongoDB  Redis  Supabase  pgvector  SQLite' },
+        { t: 'muted',  v: '' },
+        { t: 'yellow', v: 'infra:' },
+        { t: 'out',    v: '  Docker  GitHub Actions  Google Cloud  Git' },
+      ],
+      awards: () => [
+        { t: 'yellow', v: 'Smart India Hackathon — Government of India' },
+        { t: 'muted',  v: '' },
+        { t: 'green',  v: '  🥇 2023  Winner' },
+        { t: 'out',    v: '     1st of 250+ teams · blockchain product verification' },
+        { t: 'muted',  v: '' },
+        { t: 'blue',   v: '  🏅 2024  National Finalist' },
+        { t: 'out',    v: '     top team of 15K+ · AI-driven cybersecurity solution' },
+        { t: 'muted',  v: '' },
+        { t: 'blue',   v: '  🏅 2025  National Finalist' },
+        { t: 'out',    v: '     Ministry of Home Affairs track' },
+      ],
+      contact: () => [
+        { t: 'out',    v: '  email    →  prathamj7703@gmail.com' },
+        { t: 'out',    v: '  linkedin →  linkedin.com/in/pratham-joshi-7b7516172' },
+        { t: 'out',    v: '  github   →  github.com/Prathamj07' },
+        { t: 'out',    v: '  leetcode →  leetcode.com/u/s0mQSFPer6' },
+        { t: 'muted',  v: '' },
+        { t: 'muted',  v: '  📍 Indore, India · open to roles from July 2026' },
+      ],
+    };
+
+    const colorMap = {
+      green: 'out-green', yellow: 'out-yellow', purple: 'out-purple',
+      blue: 'out-blue', orange: 'out-orange', muted: 'out-muted', out: 'out',
+    };
+
+    let history = [];
+    let histIdx = -1;
+
+    function printLine(text, cls) {
+      const d = document.createElement('div');
+      d.className = cls || 'out';
+      d.textContent = text;
+      out.appendChild(d);
+    }
+
+    function printPromptLine(cmd) {
+      const d = document.createElement('div');
+      d.className = 'line';
+      d.innerHTML = `<span class="prompt">pratham@portfolio:~$</span> <span class="cmd-text">${cmd}</span>`;
+      out.appendChild(d);
+    }
+
+    function spacer() {
+      const d = document.createElement('div');
+      d.className = 'spacer';
+      out.appendChild(d);
+    }
+
+    function run(raw) {
+      const cmd = raw.trim().toLowerCase();
+      if (!cmd) return;
+
+      history.unshift(cmd);
+      histIdx = -1;
+
+      printPromptLine(cmd);
+      spacer();
+
+      if (cmd === 'clear') {
+        out.innerHTML = '';
+        return;
+      }
+
+      if (COMMANDS[cmd]) {
+        COMMANDS[cmd]().forEach(l => {
+          if (l.t === 'muted' && !l.v) { spacer(); return; }
+          printLine(l.v, colorMap[l.t] || 'out');
+        });
+      } else {
+        printLine(`command not found: ${cmd}`, 'out-muted');
+        printLine('try: help', 'out-muted');
+      }
+
+      spacer();
+      out.scrollTop = out.scrollHeight;
+    }
+
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const val = inp.value;
+        inp.value = '';
+        run(val);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (histIdx < history.length - 1) histIdx++;
+        inp.value = history[histIdx] || '';
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (histIdx > 0) histIdx--;
+        else { histIdx = -1; inp.value = ''; return; }
+        inp.value = history[histIdx] || '';
+      }
+    });
+
+    inp.focus();
+  </script>
+</body>
+</html>
