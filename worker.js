@@ -13,7 +13,7 @@
    GEMINI_API_KEY in the dashboard.
    ============================================================ */
 
-   const MODEL = "gemini-3.5-flash"; // or "gemini-2.5-flash" / "gemini-1.5-flash"
+   const MODEL = "gemini-2.5-flash"; // or "gemini-2.5-flash" / "gemini-1.5-flash"
 
    // Only these origins may use your proxy (stops others spending your quota).
    // Use your GitHub Pages origin with NO trailing path, e.g.:
