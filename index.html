@@ -1,330 +1,427 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pratham Joshi · Terminal Portfolio</title>
+  <title>pratham joshi · terminal</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: #0d1117;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
-      padding: 24px 16px;
+    :root {
+      --bg-1: #070a0f;
+      --bg-2: #0a0e14;
+      --surface: #0c1219;
+      --bar: #0e151d;
+      --border: #1b242f;
+      --text: #cdd6e0;
+      --muted: #586574;
+      --accent: #67e8f9;   /* interactive: prompt, links, echo */
+      --gold: #f5c16c;     /* names + section heads */
+      --good: #6fe7a4;     /* wins only */
+      --caret: var(--accent);
+      --shadow: 0 30px 80px rgba(0,0,0,.65);
     }
 
-    .container {
-      width: 100%;
-      max-width: 720px;
+    [data-theme="light"] {
+      --bg-1: #eef1f5;
+      --bg-2: #e7ebf0;
+      --surface: #ffffff;
+      --bar: #f4f6f9;
+      --border: #dde3ea;
+      --text: #232b35;
+      --muted: #8893a1;
+      --accent: #0e8aa3;
+      --gold: #b97e12;
+      --good: #149a5c;
+      --shadow: 0 24px 60px rgba(60,72,90,.18);
+    }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(103,232,249,.06), transparent 60%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+      padding: 24px 16px;
+      color: var(--text);
+      transition: background .35s ease;
     }
 
     .term-wrap {
-      background: #0d1117;
-      border-radius: 12px;
-      border: 1px solid #30363d;
+      width: 100%;
+      max-width: 840px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      box-shadow: var(--shadow);
+      position: relative;
+      transition: background .35s ease, border-color .35s ease;
+    }
+    /* signature: a single hairline of accent at the very top */
+    .term-wrap::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: .55;
     }
 
     .term-bar {
-      background: #161b22;
-      padding: 12px 16px;
+      background: var(--bar);
+      padding: 13px 16px;
       display: flex;
       align-items: center;
-      gap: 7px;
-      border-bottom: 1px solid #30363d;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
       user-select: none;
     }
+    .dots { display: flex; gap: 7px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; }
+    .dot.y { background: #febc2e; }
+    .dot.g { background: #28c840; }
 
-    .dot { width: 13px; height: 13px; border-radius: 50%; }
     .term-title {
       flex: 1;
       text-align: center;
       font-size: 12px;
-      color: #484f58;
+      color: var(--muted);
+      letter-spacing: .02em;
     }
+    .clock { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
 
     .term-body {
-      padding: 20px;
-      min-height: 360px;
-      max-height: 480px;
+      padding: 24px 26px;
+      height: clamp(380px, 56vh, 540px);
       overflow-y: auto;
-      font-size: 13.5px;
-      line-height: 1.75;
-      color: #e6edf3;
+      font-size: 14px;
+      line-height: 1.72;
       scroll-behavior: smooth;
     }
-
-    .term-body::-webkit-scrollbar { width: 4px; }
+    .term-body::-webkit-scrollbar { width: 8px; }
     .term-body::-webkit-scrollbar-track { background: transparent; }
-    .term-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+    .term-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
 
-    .line { display: flex; gap: 8px; flex-wrap: wrap; }
-    .prompt { color: #6366f1; flex-shrink: 0; }
-    .cmd-text { color: #79c0ff; }
+    .line { white-space: pre-wrap; word-break: break-word; }
+    .row { display: flex; gap: 9px; align-items: baseline; }
+    .prompt { color: var(--accent); flex-shrink: 0; font-weight: 500; }
+    .cmd-echo { color: var(--text); }
 
-    .out        { color: #e6edf3; }
-    .out-muted  { color: #484f58; }
-    .out-green  { color: #3fb950; }
-    .out-yellow { color: #e3b341; }
-    .out-purple { color: #bc8cff; }
-    .out-blue   { color: #79c0ff; }
-    .out-orange { color: #ffa657; }
+    .muted  { color: var(--muted); }
+    .gold   { color: var(--gold); font-weight: 500; }
+    .good   { color: var(--good); }
+    .accent { color: var(--accent); }
+    .spacer { height: 8px; }
 
-    .spacer { height: 6px; }
+    a.link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .15s ease;
+    }
+    a.link:hover, a.link:focus-visible { border-bottom-color: var(--accent); outline: none; }
+
+    .chip {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 9px;
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      transition: border-color .15s ease, color .15s ease, background .15s ease;
+    }
+    .chip:hover, .chip:focus-visible {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      outline: none;
+    }
 
     .input-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-top: 1px solid #161b22;
-      background: #0d1117;
+      gap: 9px;
+      padding: 13px 26px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
     }
-
-    .input-row .prompt { font-size: 13.5px; }
-
     #term-input {
       flex: 1;
       background: transparent;
       border: none;
       outline: none;
-      color: #79c0ff;
-      font-family: inherit;
-      font-size: 13.5px;
-      caret-color: #6366f1;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      caret-color: var(--caret);
+    }
+    ::placeholder { color: var(--border); }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 0 26px 16px;
+    }
+    .footer .hint { width: 100%; font-size: 11px; color: var(--muted); margin-bottom: 2px; letter-spacing: .03em; }
+
+    .cursor { display: inline-block; width: 8px; height: 16px; background: var(--accent); margin-left: 2px; vertical-align: text-bottom; animation: blink 1.1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; }
+      .term-body { scroll-behavior: auto; }
     }
 
-    ::placeholder { color: #30363d; }
-
-    .hint {
-      font-size: 11px;
-      color: #30363d;
-      padding: 6px 20px 14px;
-      font-family: inherit;
-      letter-spacing: 0.02em;
-    }
-
-    .blink {
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    @media (max-width: 480px) {
-      .term-body { font-size: 12px; max-height: 420px; }
-      #term-input { font-size: 12px; }
-      .input-row .prompt { font-size: 12px; }
+    @media (max-width: 520px) {
+      body { padding: 12px 8px; }
+      .term-body { font-size: 12.5px; padding: 18px 16px; }
+      .input-row, .footer { padding-left: 16px; padding-right: 16px; }
+      #term-input { font-size: 12.5px; }
+      .clock { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="term-wrap">
-      <div class="term-bar">
-        <div class="dot" style="background:#ff5f57"></div>
-        <div class="dot" style="background:#febc2e"></div>
-        <div class="dot" style="background:#28c840"></div>
-        <div class="term-title">pratham@portfolio ~ zsh</div>
-      </div>
+  <div class="term-wrap" id="wrap">
+    <div class="term-bar">
+      <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <div class="term-title">pratham@portfolio: ~/folio</div>
+      <div class="clock" id="clock">--:--</div>
+    </div>
 
-      <div class="term-body" id="output">
-        <div class="line">
-          <span class="prompt">pratham@portfolio:~$</span>
-          <span class="cmd-text">cat welcome.txt</span>
-        </div>
-        <div class="spacer"></div>
-        <div class="out-purple">╔══════════════════════════════════════╗</div>
-        <div class="out-purple">║  hey, i'm pratham.                   ║</div>
-        <div class="out-purple">║  i build AI infrastructure.          ║</div>
-        <div class="out-purple">╚══════════════════════════════════════╝</div>
-        <div class="spacer"></div>
-        <div class="out-muted"># type a command. try: <span class="out-green">help</span></div>
-        <div class="spacer"></div>
-      </div>
+    <div class="term-body" id="output" aria-live="polite"></div>
 
-      <div class="input-row">
-        <span class="prompt">pratham@portfolio:~$</span>
-        <input id="term-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command..." />
-      </div>
-      <div class="hint">help · whoami · work · projects · stack · awards · contact · clear</div>
+    <div class="input-row">
+      <span class="prompt">~/folio ❯</span>
+      <input id="term-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal command input" placeholder="type a command, or tap below" />
+    </div>
+
+    <div class="footer" id="chips">
+      <span class="hint">tab to autocomplete · ↑↓ history · or tap:</span>
     </div>
   </div>
 
   <script>
-    const out = document.getElementById('output');
-    const inp = document.getElementById('term-input');
+    const out   = document.getElementById('output');
+    const inp   = document.getElementById('term-input');
+    const wrap  = document.getElementById('wrap');
+    const chips = document.getElementById('chips');
+    const clock = document.getElementById('clock');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const L = (t, v, raw) => ({ t, v, raw });
 
     const COMMANDS = {
       help: () => [
-        { t: 'green',  v: 'available commands:' },
-        { t: 'out',    v: '  whoami     — who i am' },
-        { t: 'out',    v: '  work       — current & past roles' },
-        { t: 'out',    v: '  projects   — things i\'ve built' },
-        { t: 'out',    v: '  stack      — tools i use' },
-        { t: 'out',    v: '  awards     — recognitions' },
-        { t: 'out',    v: '  contact    — reach me' },
-        { t: 'out',    v: '  clear      — clear terminal' },
+        L('gold', 'commands'),
+        L('out', '  whoami     who i am'),
+        L('out', '  work       roles, current and past'),
+        L('out', '  projects   things i have built'),
+        L('out', '  stack      tools i reach for'),
+        L('out', '  awards     recognitions'),
+        L('out', '  contact    how to reach me'),
+        L('muted', ''),
+        L('muted', '  ls · pwd · date · echo · theme · clear'),
       ],
       whoami: () => [
-        { t: 'yellow', v: 'pratham joshi' },
-        { t: 'out',    v: 'B.Tech CSE · AI/ML Honors · CGPA 9.5' },
-        { t: 'out',    v: 'IPS Academy, Indore → graduating June 2026' },
-        { t: 'muted',  v: '' },
-        { t: 'out',    v: 'i love solving problems.' },
-        { t: 'out',    v: 'i explore tech i haven\'t touched yet.' },
-        { t: 'out',    v: 'i build things that actually scale.' },
+        L('gold', 'pratham joshi'),
+        L('out', 'B.Tech CSE · AI/ML Honors · CGPA 9.5'),
+        L('out', 'IPS Academy, Indore · graduating June 2026'),
+        L('muted', ''),
+        L('out', 'i like hard problems, unfamiliar tech, and systems that scale.'),
       ],
       work: () => [
-        { t: 'purple', v: '▸ WeDecode.io  ·  AI & Backend Engineer  ·  present' },
-        { t: 'out',    v: '  building gym environments for agentic AI training.' },
-        { t: 'out',    v: '  synthetic data gen · RL evaluation pipelines · docker infra' },
-        { t: 'muted',  v: '' },
-        { t: 'blue',   v: '▸ THDC India Limited  ·  Backend & ML Intern  ·  Sept 2025' },
-        { t: 'out',    v: '  OCR pipeline (Tesseract, EasyOCR) → 90% extraction accuracy' },
-        { t: 'out',    v: '  blockchain auth via SHA-256 + distributed ledger' },
-        { t: 'muted',  v: '' },
-        { t: 'orange', v: '▸ Valency Renewable  ·  AI Intern  ·  May – July 2025' },
-        { t: 'out',    v: '  LangChain + FaissDB lead gen · 8K+ records · 35% efficiency gain' },
-        { t: 'out',    v: '  RAG chatbot (BERT, GPT APIs) → 87% intent accuracy' },
+        L('gold', 'WeDecode.io   AI & Backend Engineer   present'),
+        L('out', '  gym environments for agentic AI training.'),
+        L('muted', '  synthetic data gen · RL evaluation pipelines · docker infra'),
+        L('spacer', ''),
+        L('gold', 'THDC India Limited   Backend & ML Intern   Sept 2025'),
+        L('out', '  OCR pipeline (Tesseract, EasyOCR) reaching 90% extraction accuracy.'),
+        L('muted', '  blockchain auth via SHA-256 + distributed ledger'),
+        L('spacer', ''),
+        L('gold', 'Valency Renewable   AI Intern   May–Jul 2025'),
+        L('out', '  LangChain + FaissDB lead gen over 8K+ records, 35% efficiency gain.'),
+        L('muted', '  RAG chatbot (BERT, GPT APIs) at 87% intent accuracy'),
       ],
       projects: () => [
-        { t: 'green',  v: '🧠 Recall  —  AI Knowledge Management' },
-        { t: 'out',    v: '   React 18 · TypeScript · pgvector · Gemini 2.5 · GPT-5 · Deno' },
-        { t: 'out',    v: '   semantic RAG over 6 content types · handwritten math solver' },
-        { t: 'blue',   v: '   → github.com/Prathamj07/Project-Recall' },
-        { t: 'muted',  v: '' },
-        { t: 'green',  v: '🎙 Anuvaad AI  —  Multilingual Dubbing Studio' },
-        { t: 'out',    v: '   Python · Flask · Whisper ASR · Coqui-TTS · ElevenLabs' },
-        { t: 'out',    v: '   speech → translation → voice cloning · 50+ languages' },
-        { t: 'blue',   v: '   → github.com/Prathamj07/Anuvaad-AI' },
-        { t: 'muted',  v: '' },
-        { t: 'green',  v: '📋 AcadBoost  —  Academic Profile + AI Resume Engine' },
-        { t: 'out',    v: '   Streamlit · Gemini API · LaTeX · LangChain · MongoDB' },
-        { t: 'out',    v: '   94% ATS compliance · AI resume analyzer' },
-        { t: 'blue',   v: '   → github.com/Prathamj07/AcadBoost' },
+        L('gold', 'Recall   AI knowledge management'),
+        L('out', '  semantic RAG over 6 content types · handwritten math solver'),
+        L('muted', '  React 18 · TypeScript · pgvector · Gemini 2.5 · GPT-5 · Deno'),
+        L('raw', '  <a class="link" href="https://github.com/Prathamj07/Project-Recall" target="_blank" rel="noopener">github.com/Prathamj07/Project-Recall</a>'),
+        L('spacer', ''),
+        L('gold', 'Anuvaad AI   multilingual dubbing studio'),
+        L('out', '  speech → translation → voice cloning across 50+ languages'),
+        L('muted', '  Python · Flask · Whisper ASR · Coqui-TTS · ElevenLabs'),
+        L('raw', '  <a class="link" href="https://github.com/Prathamj07/Anuvaad-AI" target="_blank" rel="noopener">github.com/Prathamj07/Anuvaad-AI</a>'),
+        L('spacer', ''),
+        L('gold', 'AcadBoost   academic profile + AI resume engine'),
+        L('out', '  AI resume analyzer at 94% ATS compliance'),
+        L('muted', '  Streamlit · Gemini API · LaTeX · LangChain · MongoDB'),
+        L('raw', '  <a class="link" href="https://github.com/Prathamj07/AcadBoost" target="_blank" rel="noopener">github.com/Prathamj07/AcadBoost</a>'),
       ],
       stack: () => [
-        { t: 'yellow', v: 'languages:' },
-        { t: 'out',    v: '  Python  C++  SQL' },
-        { t: 'muted',  v: '' },
-        { t: 'yellow', v: 'ml / ai:' },
-        { t: 'out',    v: '  PyTorch  TensorFlow  Scikit-learn  LangChain  RAG  RL  LLMs' },
-        { t: 'muted',  v: '' },
-        { t: 'yellow', v: 'frameworks:' },
-        { t: 'out',    v: '  FastAPI  Flask  Django  Hugging Face  Streamlit' },
-        { t: 'muted',  v: '' },
-        { t: 'yellow', v: 'databases:' },
-        { t: 'out',    v: '  PostgreSQL  MongoDB  Redis  Supabase  pgvector  SQLite' },
-        { t: 'muted',  v: '' },
-        { t: 'yellow', v: 'infra:' },
-        { t: 'out',    v: '  Docker  GitHub Actions  Google Cloud  Git' },
+        L('gold', 'languages'),  L('out', '  Python · C++ · SQL'),
+        L('spacer', ''),
+        L('gold', 'ml / ai'),    L('out', '  PyTorch · TensorFlow · Scikit-learn · LangChain · RAG · RL · LLMs'),
+        L('spacer', ''),
+        L('gold', 'frameworks'), L('out', '  FastAPI · Flask · Django · Hugging Face · Streamlit'),
+        L('spacer', ''),
+        L('gold', 'databases'),  L('out', '  PostgreSQL · MongoDB · Redis · Supabase · pgvector · SQLite'),
+        L('spacer', ''),
+        L('gold', 'infra'),      L('out', '  Docker · GitHub Actions · Google Cloud · Git'),
       ],
       awards: () => [
-        { t: 'yellow', v: 'Smart India Hackathon — Government of India' },
-        { t: 'muted',  v: '' },
-        { t: 'green',  v: '  🥇 2023  Winner' },
-        { t: 'out',    v: '     1st of 250+ teams · blockchain product verification' },
-        { t: 'muted',  v: '' },
-        { t: 'blue',   v: '  🏅 2024  National Finalist' },
-        { t: 'out',    v: '     top team of 15K+ · AI-driven cybersecurity solution' },
-        { t: 'muted',  v: '' },
-        { t: 'blue',   v: '  🏅 2025  National Finalist' },
-        { t: 'out',    v: '     Ministry of Home Affairs track' },
+        L('gold', 'Smart India Hackathon · Government of India'),
+        L('spacer', ''),
+        L('good', '  2023  Winner'),
+        L('muted', '        1st of 250+ teams · blockchain product verification'),
+        L('spacer', ''),
+        L('accent', '  2024  National Finalist'),
+        L('muted', '        top team of 15K+ · AI-driven cybersecurity'),
+        L('spacer', ''),
+        L('accent', '  2025  National Finalist'),
+        L('muted', '        Ministry of Home Affairs track'),
       ],
       contact: () => [
-        { t: 'out',    v: '  email    →  prathamj7703@gmail.com' },
-        { t: 'out',    v: '  linkedin →  linkedin.com/in/pratham-joshi-7b7516172' },
-        { t: 'out',    v: '  github   →  github.com/Prathamj07' },
-        { t: 'out',    v: '  leetcode →  leetcode.com/u/s0mQSFPer6' },
-        { t: 'muted',  v: '' },
-        { t: 'muted',  v: '  📍 Indore, India · open to roles from July 2026' },
+        L('raw', '  email     <a class="link" href="mailto:prathamj7703@gmail.com">prathamj7703@gmail.com</a>'),
+        L('raw', '  linkedin  <a class="link" href="https://linkedin.com/in/pratham-joshi-7b7516172" target="_blank" rel="noopener">pratham-joshi</a>'),
+        L('raw', '  github    <a class="link" href="https://github.com/Prathamj07" target="_blank" rel="noopener">github.com/Prathamj07</a>'),
+        L('raw', '  leetcode  <a class="link" href="https://leetcode.com/u/s0mQSFPer6" target="_blank" rel="noopener">leetcode.com/u/s0mQSFPer6</a>'),
+        L('muted', ''),
+        L('muted', '  Indore, India · open to roles from July 2026'),
       ],
+      ls: () => [ L('out', 'whoami  work  projects  stack  awards  contact') ],
+      pwd: () => [ L('out', '/home/pratham/folio') ],
+      date: () => [ L('out', new Date().toString()) ],
+      theme: () => { toggleTheme(); return [ L('muted', 'theme → ' + document.documentElement.getAttribute('data-theme')) ]; },
+      clear: () => { out.innerHTML = ''; return null; },
     };
 
-    const colorMap = {
-      green: 'out-green', yellow: 'out-yellow', purple: 'out-purple',
-      blue: 'out-blue', orange: 'out-orange', muted: 'out-muted', out: 'out',
-    };
+    const MENU = ['whoami','work','projects','stack','awards','contact'];
+    const NAMES = Object.keys(COMMANDS);
 
-    let history = [];
-    let histIdx = -1;
-
-    function printLine(text, cls) {
+    // ---- rendering ----
+    function append(line) {
       const d = document.createElement('div');
-      d.className = cls || 'out';
-      d.textContent = text;
+      if (line.t === 'spacer' || (line.t === 'muted' && !line.v)) { d.className = 'spacer'; out.appendChild(d); return; }
+      d.className = 'line ' + (line.t === 'out' ? '' : line.t);
+      if (line.t === 'raw') d.innerHTML = line.v; else d.textContent = line.v;
       out.appendChild(d);
     }
-
-    function printPromptLine(cmd) {
+    function echo(cmd) {
       const d = document.createElement('div');
-      d.className = 'line';
-      d.innerHTML = `<span class="prompt">pratham@portfolio:~$</span> <span class="cmd-text">${cmd}</span>`;
+      d.className = 'row';
+      d.innerHTML = '<span class="prompt">~/folio ❯</span><span class="cmd-echo"></span>';
+      d.querySelector('.cmd-echo').textContent = cmd;
       out.appendChild(d);
     }
+    const gap = () => { const d = document.createElement('div'); d.className = 'spacer'; out.appendChild(d); };
+    const scroll = () => { out.scrollTop = out.scrollHeight; };
 
-    function spacer() {
-      const d = document.createElement('div');
-      d.className = 'spacer';
-      out.appendChild(d);
-    }
+    // ---- history ----
+    let history = [], hIdx = -1;
 
     function run(raw) {
-      const cmd = raw.trim().toLowerCase();
-      if (!cmd) return;
+      const input = raw.trim();
+      if (!input) return;
+      history.unshift(input); hIdx = -1;
 
-      history.unshift(cmd);
-      histIdx = -1;
+      echo(input); gap();
 
-      printPromptLine(cmd);
-      spacer();
+      const [name, ...args] = input.toLowerCase().split(/\s+/);
 
-      if (cmd === 'clear') {
-        out.innerHTML = '';
-        return;
+      if (name === 'echo') {
+        append(L('out', input.slice(4).trim() || ''));
+        gap(); scroll(); return;
+      }
+      if (name === 'sudo') {
+        append(L('muted', "permission denied: nice try ⚡"));
+        gap(); scroll(); return;
       }
 
-      if (COMMANDS[cmd]) {
-        COMMANDS[cmd]().forEach(l => {
-          if (l.t === 'muted' && !l.v) { spacer(); return; }
-          printLine(l.v, colorMap[l.t] || 'out');
-        });
+      const fn = COMMANDS[name];
+      if (fn) {
+        const lines = fn();
+        if (lines) { lines.forEach(append); gap(); }
       } else {
-        printLine(`command not found: ${cmd}`, 'out-muted');
-        printLine('try: help', 'out-muted');
+        append(L('muted', 'command not found: ' + name));
+        const near = NAMES.find(n => n.startsWith(name[0]));
+        append(L('muted', near ? 'did you mean: ' + near + '?  ·  try: help' : 'try: help'));
+        gap();
       }
-
-      spacer();
-      out.scrollTop = out.scrollHeight;
+      scroll();
     }
 
+    // ---- input handling ----
     inp.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        const val = inp.value;
-        inp.value = '';
-        run(val);
-      } else if (e.key === 'ArrowUp') {
+      if (e.key === 'Enter') { const v = inp.value; inp.value = ''; run(v); }
+      else if (e.key === 'Tab') {
         e.preventDefault();
-        if (histIdx < history.length - 1) histIdx++;
-        inp.value = history[histIdx] || '';
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        if (histIdx > 0) histIdx--;
-        else { histIdx = -1; inp.value = ''; return; }
-        inp.value = history[histIdx] || '';
+        const frag = inp.value.trim().toLowerCase();
+        if (!frag) return;
+        const match = NAMES.filter(n => n.startsWith(frag));
+        if (match.length === 1) inp.value = match[0];
+        else if (match.length > 1) { echo(inp.value); append(L('muted', match.join('  '))); gap(); scroll(); }
       }
+      else if (e.key === 'ArrowUp')   { e.preventDefault(); if (hIdx < history.length - 1) hIdx++; inp.value = history[hIdx] || ''; }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); if (hIdx > 0) hIdx--; else { hIdx = -1; inp.value = ''; return; } inp.value = history[hIdx] || ''; }
     });
 
-    inp.focus();
+    // keep focus when clicking anywhere in the terminal (but allow link clicks)
+    wrap.addEventListener('mousedown', e => { if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { e.preventDefault(); inp.focus(); } });
+
+    // ---- command chips ----
+    MENU.forEach(name => {
+      const b = document.createElement('button');
+      b.className = 'chip'; b.textContent = name;
+      b.addEventListener('click', () => { run(name); inp.focus(); });
+      chips.appendChild(b);
+    });
+
+    // ---- theme ----
+    function toggleTheme() {
+      const el = document.documentElement;
+      el.setAttribute('data-theme', el.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
+
+    // ---- clock ----
+    function tick() {
+      const n = new Date();
+      clock.textContent = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+    }
+    tick(); setInterval(tick, 1000 * 20);
+
+    // ---- boot sequence ----
+    const BOOT = [
+      L('muted', 'booting folio.sh ...'),
+      L('gold',  "hey, i'm pratham — i build AI infrastructure."),
+      L('muted', "type a command, or tap one below. start with " ),
+    ];
+
+    function boot(i) {
+      if (i >= BOOT.length) {
+        const d = document.createElement('div');
+        d.className = 'line muted';
+        d.innerHTML = 'start with <span class="accent">help</span><span class="cursor"></span>';
+        // replace the last placeholder line
+        out.lastChild.remove();
+        out.appendChild(d);
+        scroll(); inp.focus();
+        return;
+      }
+      append(BOOT[i]); scroll();
+      setTimeout(() => boot(i + 1), reduce ? 0 : 320);
+    }
+    boot(0);
   </script>
 </body>
 </html>
