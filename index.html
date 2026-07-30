@@ -251,6 +251,21 @@ h1 em{font-style:italic;color:var(--amber)}
 .card .go .ar{transition:transform .25s var(--ease)}
 .card .go:hover .ar{transform:translate(3px,-3px)}
 
+/* ============================== RÉSUMÉ =============== */
+#resume{padding-top:0}
+.resume-panel{border:1px solid var(--line-2);border-radius:18px;padding:clamp(28px,5vw,54px);
+  background:linear-gradient(125deg,var(--ink-2),var(--ink-3));display:grid;
+  grid-template-columns:1fr auto;gap:30px;align-items:center;overflow:hidden;position:relative}
+.resume-panel::after{content:"CV";position:absolute;right:5%;top:50%;transform:translateY(-50%);
+  font-family:'Fraunces',serif;font-size:clamp(100px,18vw,220px);font-weight:700;
+  color:var(--paper);opacity:.025;pointer-events:none}
+.resume-panel h2{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(30px,5vw,54px);
+  line-height:1.05;letter-spacing:-.02em}
+.resume-panel h2 em{font-style:italic;color:var(--amber)}
+.resume-panel p{color:var(--muted);margin-top:14px;max-width:56ch}
+.resume-panel .btn{position:relative;z-index:1;white-space:nowrap}
+@media(max-width:700px){.resume-panel{grid-template-columns:1fr}.resume-panel .btn{justify-self:start}}
+
 /* ============================== PHOTOGRAPHY ============ */
 #frames{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sheet-hint{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint);margin-top:18px;
@@ -467,6 +482,7 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
     <a href="#about"><span class="n">01</span>about</a>
     <a href="#work"><span class="n">02</span>work</a>
     <a href="#projects"><span class="n">03</span>projects</a>
+    <a href="#resume"><span class="n">03B</span>résumé</a>
     <a href="#frames"><span class="n">04</span>frames</a>
     <a href="#poems"><span class="n">05</span>verse</a>
     <a href="#twin"><span class="n">06</span>interview</a>
@@ -482,6 +498,7 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
   <a href="#about"><span>01</span>about</a>
   <a href="#work"><span>02</span>work</a>
   <a href="#projects"><span>03</span>projects</a>
+  <a href="#resume"><span>03B</span>résumé</a>
   <a href="#frames"><span>04</span>frames</a>
   <a href="#poems"><span>05</span>verse</a>
   <a href="#twin"><span>06</span>interview</a>
@@ -606,6 +623,22 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
         <p>An AI résumé analyzer hitting 94% ATS compliance, wrapped in an academic profile builder with LaTeX export.</p>
         <div class="stack">Streamlit · Gemini API · LaTeX<br>LangChain · MongoDB</div>
         <span class="go">view repo <span class="ar">↗</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RÉSUMÉ ============ -->
+<section id="resume">
+  <div class="wrap">
+    <div class="resume-panel rv">
+      <div>
+        <div class="eyebrow">résumé <span class="coord">ENTRY 03B · CV</span></div>
+        <h2>Experience, skills, and impact — <em>one page</em>.</h2>
+        <p>For the concise version of my work, education, projects, and technical background.</p>
+      </div>
+      <a href="assets/ATS_Pratham.pdf" data-resume class="btn solid" target="_blank" rel="noopener">
+        view résumé <span class="ar">↗</span>
       </a>
     </div>
   </div>
@@ -751,9 +784,7 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
    CONFIG
    ============================================================ */
 const CONFIG = {
-  // Your résumé. Commit a PDF to the repo (e.g. "resume.pdf") or paste a share
-  // link. Leave "" and the résumé buttons stay hidden automatically.
-  RESUME_URL: ""
+  RESUME_URL: "assets/ATS_Pratham.pdf"
 };
 
 /* ============================================================
