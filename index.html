@@ -284,7 +284,8 @@ h1 em{font-style:italic;color:var(--amber)}
   opacity:0;visibility:hidden;transition:opacity .35s}
 .lb.open{opacity:1;visibility:visible}
 .lb .stage{width:min(760px,90vw);height:min(560px,64vh);border-radius:14px;overflow:hidden;
-  border:1px solid var(--line-2);background-size:cover;background-position:center;position:relative}
+  border:1px solid var(--line-2);background-size:contain;background-position:center;
+  background-repeat:no-repeat;background-color:#050608;position:relative}
 .lb .lbcap{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);
   display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
 .lb .lbcap b{color:var(--amber)}
@@ -358,48 +359,44 @@ h1 em{font-style:italic;color:var(--amber)}
   border:1px solid var(--line);border-radius:7px;padding:5px 11px;transition:border-color .2s,background .2s}
 .chip:hover{border-color:var(--cyan);background:rgba(111,230,247,.08)}
 
-/* ============================== TWIN / CHAT ========= */
+/* ============================== FIELD INTERVIEW ===== */
 #twin{position:relative}
 .twin-grid{display:grid;grid-template-columns:.9fr 1.2fr;gap:clamp(28px,5vw,64px);margin-top:48px;align-items:start}
 .twin-copy .lede{font-size:clamp(22px,3vw,32px)}
+.twin-copy .lede em{font-style:italic;color:var(--amber)}
 .twin-copy p{color:var(--muted);margin-top:20px;font-size:15.5px;max-width:46ch}
-.twin-copy .askq{margin-top:24px;display:flex;flex-wrap:wrap;gap:9px}
-.twin-copy .askq button{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);
-  border:1px solid var(--line);border-radius:20px;padding:7px 14px;background:none;transition:all .2s;text-align:left}
-.twin-copy .askq button:hover{border-color:var(--amber);color:var(--amber)}
+.qstack{margin-top:26px;display:flex;flex-direction:column;gap:8px}
+.qstack button{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);
+  border:1px solid var(--line);border-radius:10px;padding:11px 14px;background:none;text-align:left;
+  display:flex;gap:11px;align-items:baseline;transition:border-color .2s,color .2s,background .2s}
+.qstack button .qn{color:var(--faint);font-size:10.5px;flex-shrink:0}
+.qstack button:hover{border-color:var(--amber);color:var(--paper)}
+.qstack button.active{border-color:var(--cyan);color:var(--cyan);background:rgba(111,230,247,.05)}
+.shuffle{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cyan);
+  background:none;border:1px dashed var(--line-2);border-radius:10px;padding:9px 15px;
+  align-self:flex-start;transition:border-color .2s,background .2s}
+.shuffle:hover{border-color:var(--cyan);background:rgba(111,230,247,.07)}
 
-.chatbox{border:1px solid var(--line-2);border-radius:16px;background:var(--ink-2);overflow:hidden;
-  display:flex;flex-direction:column;height:480px}
-.chat-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;
-  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
-.chat-head .pulse{width:8px;height:8px;border-radius:50%;background:var(--good);
-  box-shadow:0 0 0 0 rgba(127,227,166,.6);animation:pp 2s infinite}
-@keyframes pp{0%{box-shadow:0 0 0 0 rgba(127,227,166,.5)}70%{box-shadow:0 0 0 7px rgba(127,227,166,0)}}
-.chat-head b{color:var(--paper);font-weight:500}
-.chat-head .mdl{margin-left:auto;color:var(--faint);font-size:10.5px}
-.chat-log{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:14px}
-.chat-log::-webkit-scrollbar{width:7px}.chat-log::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:7px}
-.msg{max-width:85%;font-size:14.5px;line-height:1.55}
-.msg.u{align-self:flex-end;background:var(--amber);color:#1a1206;padding:11px 15px;border-radius:14px 14px 4px 14px;font-weight:500}
-.msg.a{align-self:flex-start;color:var(--paper)}
-.msg.a .who{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--cyan);
-  letter-spacing:.08em;margin-bottom:5px;display:block}
-.msg.a .bub{background:var(--ink-3);border:1px solid var(--line);padding:12px 15px;border-radius:4px 14px 14px 14px}
-.msg.sys{align-self:center;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--faint);
-  text-align:center;max-width:100%;line-height:1.6}
-.msg.sys a{color:var(--cyan);border-bottom:1px solid var(--line-2)}
-.typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);
-  margin-right:4px;animation:tb 1.2s infinite}
-.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
-@keyframes tb{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
-.chat-in{border-top:1px solid var(--line);padding:12px;display:flex;gap:10px}
-.chat-in input{flex:1;background:var(--ink);border:1px solid var(--line);border-radius:10px;
-  padding:12px 14px;color:var(--paper);font:inherit;font-size:14px;outline:none}
-.chat-in input:focus{border-color:var(--cyan)}
-.chat-in button{background:var(--cyan);color:#06222a;border:none;border-radius:10px;
-  padding:0 18px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;transition:background .2s}
-.chat-in button:hover{background:var(--amber)}
-.chat-in button:disabled{opacity:.5}
+.transcript{border:1px solid var(--line-2);border-radius:16px;background:var(--ink-2);overflow:hidden;
+  display:flex;flex-direction:column;min-height:480px}
+.transcript .t-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;
+  gap:11px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
+.transcript .rec{width:9px;height:9px;border-radius:50%;background:#ff5f57;
+  box-shadow:0 0 0 0 rgba(255,95,87,.6);animation:rec 1.9s infinite}
+@keyframes rec{0%{box-shadow:0 0 0 0 rgba(255,95,87,.5)}70%{box-shadow:0 0 0 8px rgba(255,95,87,0)}100%{box-shadow:0 0 0 0 rgba(255,95,87,0)}}
+.transcript .t-head b{color:var(--paper);font-weight:500}
+.transcript .t-head .ctr{margin-left:auto;color:var(--faint);font-size:10.5px;font-variant-numeric:tabular-nums}
+.t-body{flex:1;padding:28px 26px;display:flex;flex-direction:column;gap:16px;overflow-y:auto}
+.t-body::-webkit-scrollbar{width:7px}.t-body::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:7px}
+.t-q{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cyan);letter-spacing:.03em;line-height:1.5}
+.t-q::before{content:"Q · ";color:var(--faint)}
+.t-a{font-family:'Fraunces',serif;font-weight:330;font-size:clamp(19px,2.4vw,24px);line-height:1.5;
+  color:var(--paper);letter-spacing:-.01em;min-height:2em}
+.t-a .cur{display:inline-block;width:9px;height:1.05em;background:var(--amber);
+  vertical-align:-3px;margin-left:3px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.t-sign{margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--faint);letter-spacing:.12em}
 
 /* ============================== FOOTER ============== */
 footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px solid var(--line);
@@ -472,7 +469,7 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
     <a href="#projects"><span class="n">03</span>projects</a>
     <a href="#frames"><span class="n">04</span>frames</a>
     <a href="#poems"><span class="n">05</span>verse</a>
-    <a href="#twin"><span class="n">06</span>twin</a>
+    <a href="#twin"><span class="n">06</span>interview</a>
   </nav>
   <div class="hud-right">
     <button class="theme-btn" id="themeBtn" aria-label="Switch to light theme" title="Toggle theme">☾</button>
@@ -487,7 +484,7 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
   <a href="#projects"><span>03</span>projects</a>
   <a href="#frames"><span>04</span>frames</a>
   <a href="#poems"><span>05</span>verse</a>
-  <a href="#twin"><span>06</span>twin</a>
+  <a href="#twin"><span>06</span>interview</a>
 </div>
 
 <main>
@@ -498,12 +495,12 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
     <div class="hero-meta">
       <span>FIELD&nbsp;NOTES&nbsp;/&nbsp;<b>v2026</b></span>
       <span>ROLE&nbsp;—&nbsp;<b>AI&nbsp;&amp;&nbsp;BACKEND&nbsp;ENGINEER</b></span>
-      <span>STATUS&nbsp;—&nbsp;<b>OPEN&nbsp;FROM&nbsp;JUL&nbsp;2026</b></span>
+      <span>STATUS&nbsp;—&nbsp;<b>BUILDING&nbsp;AT&nbsp;WEDECODE</b></span>
     </div>
     <h1>I build machines<span class="l2">that <em>learn</em>,</span><span class="l2">and chase the</span><span class="l2">light they can't.</span></h1>
     <p class="hero-sub">I'm Pratham — I work on <b>AI infrastructure</b>: synthetic data, reinforcement-learning pipelines, and RAG systems that scale. Off the keyboard I'm usually <b>somewhere new</b> with a camera, or writing about it.</p>
     <div class="hero-cta">
-      <a href="#twin" class="btn solid">ask my digital twin <span class="ar">↗</span></a>
+      <a href="#twin" class="btn solid">interview me <span class="ar">↗</span></a>
       <a href="#" data-resume class="btn">résumé <span class="ar">↓</span></a>
       <a href="#work" class="btn">see the work <span class="ar">↗</span></a>
     </div>
@@ -525,7 +522,7 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
       <div>
         <p class="lede rv">I like hard problems, unfamiliar tech, and systems that hold up when they scale — and I'm just as happy <em>off the grid</em> with a camera and a half-finished notebook.</p>
         <div class="about-body rv d1">
-          <p>I'm a final-year <b>B.Tech CSE</b> student at IPS Academy, Indore, on the AI/ML honors track, finishing in <b>June 2026</b> with a 9.5 CGPA. Most of my time goes into the messy middle of machine learning — the data pipelines, the evaluation loops, the infrastructure that turns a clever model into something that actually runs.</p>
+          <p>I'm a <b>B.Tech CSE graduate</b> from IPS Academy, Indore, with an AI/ML honors track. I graduated in <b>June 2026</b> with a 9.5 CGPA. Most of my time goes into the messy middle of machine learning — the data pipelines, the evaluation loops, the infrastructure that turns a clever model into something that actually runs.</p>
           <p>Right now I'm building gym environments for <b>agentic AI</b> at WeDecode. Before that: OCR and blockchain systems, RAG chatbots, lead-gen engines. The constant is curiosity — I'd rather learn the unfamiliar thing than repeat the comfortable one. Photography, writing and travel are the same instinct pointed at the world instead of a terminal.</p>
         </div>
       </div>
@@ -534,10 +531,10 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
         <div class="row"><span class="k">focus</span><span class="v c">AI infra · backend</span></div>
         <div class="row"><span class="k">degree</span><span class="v">B.Tech CSE · AI/ML</span></div>
         <div class="row"><span class="k">cgpa</span><span class="v a">9.5 / 10</span></div>
-        <div class="row"><span class="k">grad</span><span class="v">Jun 2026</span></div>
+        <div class="row"><span class="k">graduated</span><span class="v">Jun 2026</span></div>
         <div class="row"><span class="k">hackathons</span><span class="v">1 win · 2 finals</span></div>
         <div class="row"><span class="k">off-screen</span><span class="v a">photo · write · roam</span></div>
-        <div class="row"><span class="k">status</span><span class="v c">open · Jul 2026</span></div>
+        <div class="row"><span class="k">status</span><span class="v c">working · WeDecode</span></div>
       </div>
     </div>
   </div>
@@ -682,26 +679,27 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
   </div>
 </section>
 
-<!-- ============ DIGITAL TWIN / CHAT ============ -->
+<!-- ============ FIELD INTERVIEW ============ -->
 <section id="twin">
   <div class="wrap">
-    <div class="eyebrow rv">digital twin <span class="coord">ENTRY 06 · ASK THE ARCHIVE</span></div>
+    <div class="eyebrow rv">field interview <span class="coord">ENTRY 06 · ON THE RECORD</span></div>
     <h2 class="sec rv">Interview <em>me</em>, without me.</h2>
     <div class="twin-grid">
       <div class="twin-copy rv d1">
-        <p class="lede">A small piece of me lives here — an AI trained on my work, projects and obsessions. <em>Ask it anything.</em></p>
-        <p>Curious whether I'd fit your team, what I actually did at WeDecode, or where I'd want to travel next? Skip the back-and-forth and just ask. It answers in my voice, from what it knows.</p>
-        <div class="askq" id="askChips"></div>
+        <p class="lede">No bot, no guesswork — just answers I actually wrote, the way I'd say them out loud. <em>Pick a question.</em></p>
+        <p>Curious what I did at WeDecode, whether I'd fit your team, or where I'd point a camera next? Tap a prompt and watch the answer come back across the wire.</p>
+        <div class="qstack" id="qStack"></div>
+        <button class="shuffle" id="shuffleBtn">↻ surprise me</button>
       </div>
-      <div class="chatbox rv d2">
-        <div class="chat-head">
-          <span class="pulse"></span><b>pratham</b> · digital twin
-          <span class="mdl" id="mdlTag">gemini</span>
+      <div class="transcript rv d2">
+        <div class="t-head">
+          <span class="rec"></span><b>field interview</b> · transcript
+          <span class="ctr" id="tCtr">00 / 00</span>
         </div>
-        <div class="chat-log" id="chatLog"></div>
-        <div class="chat-in">
-          <input id="chatIn" type="text" placeholder="ask me something…" aria-label="Ask the digital twin" />
-          <button id="chatSend">send</button>
+        <div class="t-body">
+          <div class="t-q" id="tQ"></div>
+          <div class="t-a" id="tA"></div>
+          <div class="t-sign">— PRATHAM JOSHI · IN HIS OWN WORDS</div>
         </div>
       </div>
     </div>
@@ -750,121 +748,60 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
 
 <script>
 /* ============================================================
-   CONFIG  — set your Gemini key here.
-   ⚠ This runs in the browser, so the key is visible to visitors.
-     Before going live: restrict it in Google AI Studio / Cloud
-     console to your GitHub Pages domain (HTTP referrer restriction).
-     See README.md for the 2-minute walkthrough.
+   CONFIG
    ============================================================ */
 const CONFIG = {
-  // Your serverless proxy URL (e.g. a Cloudflare Worker). The Gemini key lives
-  // THERE as a secret — never in this file, never in your repo. See README.
-  // Leave "" and the chat runs in a tidy demo mode.
-  PROXY_URL: "https://pratham-twin.pratham-ed4.workers.dev/",
   // Your résumé. Commit a PDF to the repo (e.g. "resume.pdf") or paste a share
   // link. Leave "" and the résumé buttons stay hidden automatically.
-  RESUME_URL: "",
-  // Cosmetic label shown in the chat header.
-  MODEL_LABEL: "gemini"
+  RESUME_URL: ""
 };
 
 /* ============================================================
-   PHOTOS — your contact sheet.
-   To use real photos: make a folder named "photos" in your repo,
-   put images in it, and set `src` to e.g. "photos/spiti.jpg".
-   (On github.com you can just drag files into the folder — no git needed.)
-   With no src, a filmic placeholder frame renders so it's never empty.
+   PHOTOS — the contact sheet.
    ============================================================ */
 const PHOTOS = [
-  { place:"Spiti Valley, HP",   meta:"35mm · f/8 · cold light",   tone:["#1b2a3a","#3a5a72","#dfe9f0"], src:"" },
-  { place:"Varanasi, UP",       meta:"50mm · f/2 · dawn ghats",   tone:["#2a1410","#7a3b22","#f0b070"], src:"" },
-  { place:"Indore, MP — home",  meta:"28mm · f/4 · monsoon",      tone:["#10231d","#2f6b52","#cfe8c0"], src:"" },
-  { place:"Rann of Kutch, GJ",  meta:"24mm · f/11 · salt + sky",  tone:["#1a1726","#4a3f6b","#e6d8f0"], src:"" },
-  { place:"Munnar, KL",         meta:"85mm · f/2.8 · tea fog",    tone:["#0f2018","#356046","#bfe0c4"], src:"" },
-  { place:"Jaisalmer, RJ",      meta:"35mm · f/5.6 · gold hour",  tone:["#241405","#8a5418","#f2c878"], src:"" },
-  { place:"Ladakh, JK",         meta:"24mm · f/9 · 4200m",        tone:["#0e1d2b","#2f5e7e","#dfeef5"], src:"" },
-  { place:"a train window",     meta:"50mm · f/1.8 · motion",     tone:["#1d1a12","#5a4a2a","#e8dcc0"], src:"" }
+  { place:"Moonlit Facade", meta:"architecture · after dark", src:"assets/moonlit_facade.jpeg" },
+  { place:"Wheel of Light", meta:"fairground · after dark", src:"assets/wheel_of_light.jpeg" },
+  { place:"Night Market", meta:"colour · after dark", src:"assets/night_market.jpeg" },
+  { place:"Water Lily", meta:"nature · close study", src:"assets/water_lily.jpeg" },
+  { place:"Fireworks", meta:"light · celebration", src:"assets/fireworks.jpeg" },
+  { place:"Street Hymn", meta:"people · monochrome", src:"assets/street_hymn.jpeg" },
+  { place:"Canopy", meta:"nature · looking up", src:"assets/canopy.jpeg" },
+  { place:"Stillness", meta:"nature · close study", src:"assets/butterfly.jpeg" }
 ];
 
 /* ============================================================
-   POEMS — your verse. Edit freely. Use \n for line breaks and a
-   blank line between stanzas. Add as many as you like.
+   POEMS — text stays in /poems; each filename becomes its title.
    ============================================================ */
-const POEMS = [
-  {
-    title:"Gradient Descent",
-    place:"at the desk",
-    date:"2026",
-    lines:`I taught a thing to learn
-by failing slightly less each time —
-a patience I have never
-managed on myself.
-
-It found the bottom of its valley.
-I am still rolling.`
-  },
-  {
-    title:"Window Seat",
-    place:"a slow train",
-    date:"travel",
-    lines:`The country edits itself
-past the glass: a field, a wire,
-a boy who waves at no one
-in particular, at all of us.
-
-I keep the shutter half-pressed
-the whole way home,
-waiting for the light
-to mean something.`
-  },
-  {
-    title:"Aperture",
-    place:"golden hour",
-    date:"—",
-    lines:`Everything I love
-arrives slightly out of focus
-and asks me, gently,
-to stop trying so hard to keep it.
-
-So I open all the way.
-Let the edges go.
-Hold only what the middle
-was always going to give.`
-  },
-  {
-    title:"Beginner, Again",
-    place:"unfamiliar stack",
-    date:"2026",
-    lines:`I am bad at this on purpose.
-I have chosen, once more,
-the steep and stupid joy
-of not yet knowing how.
-
-Comfort is a local minimum.
-I would rather climb.`
-  },
-  {
-    title:"Indore, 2 a.m.",
-    place:"home",
-    date:"—",
-    lines:`The city dims to a hum
-the size of a single fan.
-The build finally passes.
-The tea has gone cold and right.
-
-Somewhere a model is dreaming
-in numbers I gave it.
-I close the lid.
-I let us both rest.`
-  }
+const POEM_FILES = [
+  "poems/I'm_a.txt",
+  "poems/to_my_food_plate.txt",
+  "poems/In_sky_full_of_stars.txt",
+  "poems/the_way_to_your_heart.txt"
 ];
 
 /* ============================================================
-   The digital twin's knowledge + voice (PERSONA) now lives in the
-   proxy (worker.js) so it can't be abused as a free chatbot and so
-   the persona text isn't editable by anyone hitting your endpoint.
-   Edit the twin's facts there.
+   FIELD INTERVIEW — the questions + Pratham's own answers.
+   Pure data, no API. Add, remove or reword freely.
    ============================================================ */
+const INTERVIEW = [
+  { q:"What are you working on right now?",
+    a:"I'm at WeDecode building gym environments for agentic AI — the little worlds agents practice in. Day to day that's generating synthetic data, designing RL evaluation pipelines, and keeping the Docker infrastructure underneath from quietly falling over." },
+  { q:"Where are you working?",
+    a:"I'm currently an AI & Backend Engineer at WeDecode, building gym environments for training agentic AI. The work spans synthetic data, RL evaluation pipelines, and the Docker infrastructure underneath it all." },
+  { q:"Tell me about Recall.",
+    a:"Recall is my second brain, made searchable. Semantic RAG across six kinds of content, plus a handwritten-math solver, built on React, pgvector, Gemini 2.5 and GPT-5. You search by meaning, not by remembering the exact words." },
+  { q:"Why always an unfamiliar stack?",
+    a:"Because comfort is a local minimum. I'd rather be a little bad at something new than fluent in something I've already solved. The discomfort is usually the signal that I'm actually learning." },
+  { q:"What's with the photography?",
+    a:"It's the same instinct as the engineering, just pointed at the world instead of a terminal. I shoot when I travel — mostly light, mostly places. The camera is how I make myself pay attention." },
+  { q:"What are you proudest of?",
+    a:"Winning Smart India Hackathon in 2023 — first of 250-plus teams, on a blockchain product-verification build. The two national-finalist runs after that taught me more, but that first win still means the most." },
+  { q:"Where do you want to go next?",
+    a:"Somewhere with no fixed plan. The best trips I've taken started as a train ticket and a half-charged camera. I'm overdue for one." },
+  { q:"What do you actually optimize for?",
+    a:"Learning the unfamiliar thing over repeating the comfortable one. If a project doesn't scare me a little, it's probably not teaching me anything worth keeping." }
+];
 
 /* ============================================================
    1. CUSTOM CURSOR
@@ -891,7 +828,7 @@ I let us both rest.`
     {t:'calibrating instruments …',c:''},
     {t:'location locked · 22.7196°N 75.8577°E',c:'ok'},
     {t:'loading field notes · 2023–2026',c:''},
-    {t:'twin online · gemini standby',c:'am'},
+    {t:'interview log loaded · on the record',c:'am'},
     {t:'welcome.',c:'ok'}
   ];
   const box=document.getElementById('boot');
@@ -1005,8 +942,8 @@ I let us both rest.`
    6. MARQUEE
    ============================================================ */
 (function(){
-  const items=[['now','training agents @ WeDecode'],['read','more than i write'],['cgpa','9.5, almost done'],
-    ['learning','film photography'],['next','a trip with no plan'],['open','roles from jul 2026'],
+  const items=[['now','evaluating agents @ WeDecode'],['write','more than I read'],['cgpa','9.5 · graduated'],
+    ['learning','film photography'],['next','a trip with no plan'],['work','AI & backend @ WeDecode'],
     ['fav','the unfamiliar stack'],['shipping','AI infrastructure']];
   const html=items.map(([k,v])=>`<span><i>${k}</i>${v}</span>`).join('');
   document.getElementById('mqTrack').innerHTML=html+html;
@@ -1033,11 +970,6 @@ document.querySelectorAll('.card').forEach(c=>{
       <div class="cap"><span class="pl">${p.place}</span><span class="mt">${p.meta.split('·').slice(-1)[0].trim()}</span></div>`;
     sheet.appendChild(f);
   });
-  // add-your-own tile
-  const add=document.createElement('div');add.className='frame add';
-  add.innerHTML=`<div class="img"><span>+ your frame here<br><br>edit PHOTOS[] in index.html<br>set src to assets/photo.jpg</span></div>
-    <div class="cap"><span class="pl">add a photo</span><span class="mt">↗</span></div>`;
-  sheet.appendChild(add);
 
   // drag to scroll
   let down=false,sx=0,sl=0,moved=0;
@@ -1072,17 +1004,29 @@ document.querySelectorAll('.card').forEach(c=>{
 /* ============================================================
    9. POEMS — render verse
    ============================================================ */
-(function(){
+(async function(){
   const grid=document.getElementById('poemsGrid');
   const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  POEMS.forEach(p=>{
+  const titleFromFile=file=>file.split('/').pop().replace(/\.txt$/i,'').replace(/_/g,' ');
+  const poems=(await Promise.all(POEM_FILES.map(async file=>{
+    try{
+      const res=await fetch(file);
+      if(!res.ok)throw new Error(`HTTP ${res.status}`);
+      return {title:titleFromFile(file),lines:(await res.text()).trim()};
+    }catch(err){
+      console.error(`Could not load ${file}:`,err);
+      return null;
+    }
+  }))).filter(Boolean);
+  poems.forEach((p,i)=>{
     const el=document.createElement('div');el.className='poem rv';
-    el.innerHTML=`<div class="pmeta"><span>${esc(p.place||'')}</span><span>${esc(p.date||'')}</span></div>
+    el.innerHTML=`<div class="pmeta"><span>field notes</span><span>poem ${String(i+1).padStart(2,'0')}</span></div>
       <h3>${esc(p.title)}</h3>
       <div class="verse">${esc(p.lines)}</div>
       <div class="mark">— pj</div>`;
     grid.appendChild(el);
   });
+  if(!poems.length)grid.innerHTML='<p class="poem">The poems could not be loaded.</p>';
   const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
   grid.querySelectorAll('.rv').forEach(el=>io.observe(el));
 })();
@@ -1098,7 +1042,7 @@ document.querySelectorAll('.card').forEach(c=>{
       L('','  projects  things i built'),L('','  stack     tools i reach for'),L('','  awards    recognitions'),
       L('','  frames    photography'),L('','  contact   how to reach me'),L('mut',''),L('mut','  ls · pwd · date · echo · clear')],
     whoami:()=>[L('gold','pratham joshi'),L('','B.Tech CSE · AI/ML honors · CGPA 9.5'),
-      L('','IPS Academy, Indore · graduating June 2026'),L('mut',''),L('','i like hard problems, unfamiliar tech, and systems that scale.')],
+      L('','IPS Academy, Indore · graduated June 2026'),L('mut',''),L('','i like hard problems, unfamiliar tech, and systems that scale.')],
     work:()=>[L('gold','WeDecode.io   AI & Backend Engineer   present'),L('','  gym environments for agentic AI training.'),
       L('mut','  synthetic data · RL eval pipelines · docker'),L('sp',''),
       L('gold','THDC India   Backend & ML Intern   Sep 2025'),L('','  OCR pipeline (Tesseract, EasyOCR) at 90% accuracy.'),
@@ -1124,7 +1068,7 @@ document.querySelectorAll('.card').forEach(c=>{
     contact:()=>[L('raw','  email     <a href="mailto:prathamj7703@gmail.com">prathamj7703@gmail.com</a>'),
       L('raw','  github    <a href="https://github.com/Prathamj07" target="_blank" rel="noopener">github.com/Prathamj07</a>'),
       L('raw','  linkedin  <a href="https://linkedin.com/in/pratham-joshi-7b7516172" target="_blank" rel="noopener">pratham-joshi</a>'),
-      L('mut',''),L('mut','  Indore, India · open to roles from July 2026')],
+      L('mut',''),L('mut','  Indore, India · AI & Backend Engineer @ WeDecode')],
     ls:()=>[L('','whoami  work  projects  stack  awards  frames  contact')],
     pwd:()=>[L('','/home/pratham/folio')],
     date:()=>[L('',new Date().toString())],
@@ -1164,78 +1108,51 @@ document.querySelectorAll('.card').forEach(c=>{
 })();
 
 /* ============================================================
-   11. DIGITAL TWIN — Gemini chat
+   11. FIELD INTERVIEW — self-contained Q&A with typewriter reveal
    ============================================================ */
 (function(){
-  const log=document.getElementById('chatLog'),input=document.getElementById('chatIn'),
-    send=document.getElementById('chatSend'),mdlTag=document.getElementById('mdlTag');
-  mdlTag.textContent=CONFIG.MODEL_LABEL;
-  const history=[]; // {role:'user'|'model', text}
-  const SUGGEST=["What did you do at WeDecode?","Are you open to roles?","Tell me about Recall.","Where do you want to travel next?"];
+  const stack=document.getElementById('qStack');
+  const qEl=document.getElementById('tQ');
+  const aEl=document.getElementById('tA');
+  const ctr=document.getElementById('tCtr');
+  const shuffle=document.getElementById('shuffleBtn');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const total=String(INTERVIEW.length).padStart(2,'0');
+  let cur=-1, timer=null;
 
-  function bubble(role,text,extra){
-    const m=document.createElement('div');
-    if(role==='user'){m.className='msg u';m.textContent=text;}
-    else if(role==='sys'){m.className='msg sys';m.innerHTML=text;}
-    else{m.className='msg a';m.innerHTML=`<span class="who">PRATHAM · TWIN</span><div class="bub">${text}</div>`;}
-    log.appendChild(m);log.scrollTop=log.scrollHeight;return m;
-  }
-  function typing(){const m=document.createElement('div');m.className='msg a';
-    m.innerHTML='<span class="who">PRATHAM · TWIN</span><div class="bub typing"><span></span><span></span><span></span></div>';
-    log.appendChild(m);log.scrollTop=log.scrollHeight;return m;}
+  // build the question list
+  INTERVIEW.forEach((item,i)=>{
+    const b=document.createElement('button');
+    b.innerHTML=`<span class="qn">${String(i+1).padStart(2,'0')}</span><span>${item.q}</span>`;
+    b.addEventListener('click',()=>play(i));
+    stack.appendChild(b);
+  });
+  const btns=[...stack.children];
 
-  // suggestion chips
-  const chipWrap=document.getElementById('askChips');
-  SUGGEST.forEach(q=>{const b=document.createElement('button');b.textContent=q;
-    b.onclick=()=>{input.value=q;ask();};chipWrap.appendChild(b);});
-
-  // greeting
-  bubble('a',"Hey — I'm Pratham's digital twin. Ask me about his work, projects, the photography habit, or whether he'd fit your team.");
-  if(!CONFIG.PROXY_URL){
-    bubble('sys','⚠ chat is in demo mode — no proxy connected yet.<br>deploy the worker and set <b>PROXY_URL</b> in index.html to go live. see README.md.');
-  }
-
-  function demoAnswer(q){
-    q=q.toLowerCase();
-    if(/wedecode|current|now|doing/.test(q))return "Right now I'm at WeDecode building gym environments for agentic AI — synthetic data, RL evaluation pipelines, and the Docker infra under it. (This is a canned reply — add a Gemini key for the real thing.)";
-    if(/role|hire|hiring|open|job|available/.test(q))return "Yes — I graduate in June 2026 and I'm open to roles from July 2026. Easiest is email: prathamj7703@gmail.com. (Demo reply — add a Gemini key for live answers.)";
-    if(/recall/.test(q))return "Recall is my AI knowledge-management app — semantic RAG over six content types plus a handwritten-math solver, built on React, pgvector, Gemini 2.5 and GPT-5. (Demo reply.)";
-    if(/travel|photo|camera/.test(q))return "Photography and travel are my off-keyboard life — I shoot mostly light and places when I roam. Next on the list: somewhere with no fixed plan. (Demo reply.)";
-    return "I can answer that for real once a Gemini API key is set in CONFIG. For now: reach me at prathamj7703@gmail.com. (Demo mode.)";
+  function play(i){
+    if(timer){clearInterval(timer);timer=null;}
+    cur=i;
+    btns.forEach((b,j)=>b.classList.toggle('active',j===i));
+    ctr.textContent=`${String(i+1).padStart(2,'0')} / ${total}`;
+    qEl.textContent=INTERVIEW[i].q;
+    const text=INTERVIEW[i].a;
+    if(reduce){aEl.textContent=text;return;}
+    aEl.innerHTML='<span class="cur"></span>';
+    let n=0;
+    timer=setInterval(()=>{
+      n++;
+      aEl.innerHTML=text.slice(0,n)+'<span class="cur"></span>';
+      if(n>=text.length){clearInterval(timer);timer=null;aEl.textContent=text;}
+    },14);
   }
 
-  async function callTwin(userText){
-    const messages=history.concat([{role:'user',text:userText}]);
-    const res=await fetch(CONFIG.PROXY_URL,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages})
-    });
-    if(!res.ok){
-      let msg='the twin is unreachable ('+res.status+').';
-      if(res.status===429)msg='rate limit hit — give it a moment and try again.';
-      else if(res.status===403)msg='the proxy refused this origin. add your site URL to ALLOWED_ORIGINS in worker.js.';
-      else if(res.status>=500)msg='the proxy hit an error talking to Gemini. check the worker logs and model name.';
-      throw new Error(msg);
-    }
-    const data=await res.json();
-    return (data.reply||'').trim()||"hmm, I didn't get a usable answer back. try rephrasing?";
-  }
+  shuffle.addEventListener('click',()=>{
+    let i;do{i=Math.floor(Math.random()*INTERVIEW.length);}while(i===cur&&INTERVIEW.length>1);
+    play(i);
+  });
 
-  let busy=false;
-  async function ask(){
-    const q=input.value.trim();if(!q||busy)return;
-    input.value='';bubble('user',q);busy=true;send.disabled=true;
-    const t=typing();
-    try{
-      let answer;
-      if(!CONFIG.PROXY_URL){await new Promise(r=>setTimeout(r,600));answer=demoAnswer(q);}
-      else{answer=await callTwin(q);history.push({role:'user',text:q});history.push({role:'model',text:answer});}
-      t.remove();bubble('a',answer.replace(/\n/g,'<br>'));
-    }catch(err){t.remove();bubble('sys','⚠ '+err.message);}
-    busy=false;send.disabled=false;input.focus();
-  }
-  send.onclick=ask;
-  input.addEventListener('keydown',e=>{if(e.key==='Enter')ask();});
+  // open on the first question so the panel is never empty
+  play(0);
 })();
 
 /* ============================================================
