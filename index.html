@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -488,7 +488,7 @@ footer{padding:clamp(70px,9vw,120px) clamp(16px,5vw,42px) 50px;border-top:1px so
     <a href="#twin"><span class="n">06</span>interview</a>
   </nav>
   <div class="hud-right">
-    <button class="theme-btn" id="themeBtn" aria-label="Switch to light theme" title="Toggle theme">☾</button>
+    <button class="theme-btn" id="themeBtn" aria-label="Switch to dark theme" title="Toggle theme">☀</button>
     <div class="hud-time" id="hudtime">--:--:-- <b>IST</b></div>
     <button class="menu-btn" id="menuBtn" aria-label="Open menu">menu</button>
   </div>
@@ -893,7 +893,7 @@ const INTERVIEW = [
     btn.textContent=t==='light'?'☀':'☾';
     btn.setAttribute('aria-label',t==='light'?'Switch to dark theme':'Switch to light theme');
   }
-  apply(load()||'dark'); // default dark to keep the filmic look
+  apply(load()||'light');
   btn.addEventListener('click',()=>{const nt=root.getAttribute('data-theme')==='light'?'dark':'light';apply(nt);save(nt);});
 })();
 
